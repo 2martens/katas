@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'org.owasp.dependencycheck' version '5.3.0' // checking dependencies for known vulnerabilities
+    id 'io.freefair.lombok' version '4.1.6'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'io.freefair.lombok'
+
+    sourceCompatibility = projectSourceCompatibility
+    targetCompatibility = projectSourceCompatibility
+
+    dependencies {
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+
+        testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
+        testImplementation 'org.assertj:assertj-core:3.11.1'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    configurations {
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+}
+
+allprojects {
+    group = projectgroup
+
+    repositories {
+        mavenCentral()
+    }
+}
